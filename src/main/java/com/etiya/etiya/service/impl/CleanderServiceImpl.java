@@ -1,6 +1,6 @@
 package com.etiya.etiya.service.impl;
 
-import com.etiya.etiya.Util.TPage;
+import com.etiya.etiya.util.TPage;
 import com.etiya.etiya.dto.CleanderDto;
 import com.etiya.etiya.entity.Cleander;
 import com.etiya.etiya.repository.CleanderRepository;
@@ -11,9 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class CleanderServiceImpl implements CleanderService {
