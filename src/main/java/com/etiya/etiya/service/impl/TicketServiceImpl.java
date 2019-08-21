@@ -1,14 +1,18 @@
 package com.etiya.etiya.service.impl;
 
+import com.etiya.etiya.Util.TPage;
 import com.etiya.etiya.dto.TicketDto;
 import com.etiya.etiya.entity.Ticket;
 import com.etiya.etiya.repository.TicketRepository;
 import com.etiya.etiya.service.TicketService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,13 +30,12 @@ public class TicketServiceImpl implements TicketService {
 
 
     @Override
-    public List<TicketDto> listeleme() {
-        List<Ticket> ticket = ticketRepository.findAll();
-        List<TicketDto> ticketDto = new ArrayList<>();
-        for(Ticket t:ticket){
-            ticketDto.add(modelMapper.map(t,TicketDto.class));
-        }
-        return ticketDto;
+    public Page<TicketDto> listeleme(Pageable pageable) {
+        Page<Ticket> data = ticketRepository.findAll(pageable);
+        TPage tpage = new TPage<TicketDto>();
+        TicketDto[] dtos = modelMapper.map(data.getContent(),TicketDto[].class);
+        tpage.setStat(data, Arrays.asList(dtos));
+        return (Page<TicketDto>) tpage;
     }
 
     @Override
@@ -66,8 +69,8 @@ public class TicketServiceImpl implements TicketService {
         if(ticket.getId().equals(null))
             throw new IllegalArgumentException("Bu id'li kayıt bulunamadı.");
 
-        ticket.setCleander(ticketDto.getCleanderDto());
-        ticket.setCustomers(ticketDto.getCustomersDto());
+      //  ticket.setCleander(ticketDto.getCleanderDto());
+     //   ticket.setCustomers(ticketDto.getCustomersDto());
         ticket.setPnr(ticketDto.getPnr());
         ticket.setPrice(ticketDto.getPrice());
         ticket.setSeatNumber(ticketDto.getSeatNumber());

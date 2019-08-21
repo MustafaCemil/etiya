@@ -18,5 +18,4 @@ public class AirportDto {
     private String airportCity;
     private String airportCountry;
     private Set<CleanderDto> departureAirport;
-    private Set<CleanderDto> arrivalAirport;
 }

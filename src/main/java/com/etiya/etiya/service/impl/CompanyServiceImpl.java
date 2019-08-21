@@ -1,14 +1,18 @@
 package com.etiya.etiya.service.impl;
 
+import com.etiya.etiya.Util.TPage;
 import com.etiya.etiya.dto.CompanyDto;
 import com.etiya.etiya.entity.Company;
 import com.etiya.etiya.repository.CompanyRepository;
 import com.etiya.etiya.service.CompanyService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -25,13 +29,12 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<CompanyDto> listeleme() {
-        List<Company> company = companyRepository.findAll();
-        List<CompanyDto> companyDto = new ArrayList<>();
-        for (Company c:company) {
-            companyDto.add(modelMapper.map(c,CompanyDto.class));
-        }
-        return companyDto;
+    public Page<CompanyDto> listeleme(Pageable pageable) {
+        Page<Company> data = companyRepository.findAll(pageable);
+        TPage tpage = new TPage<CompanyDto>();
+        CompanyDto[] dtos = modelMapper.map(data.getContent(),CompanyDto[].class);
+        tpage.setStat(data, Arrays.asList(dtos));
+        return (Page<CompanyDto>) tpage;
     }
 
     @Override

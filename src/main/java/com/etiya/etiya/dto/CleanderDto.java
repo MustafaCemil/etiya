@@ -17,7 +17,6 @@ public class CleanderDto {
     private Long id;
     private Date flightTime;
     private AirportDto departureDto;
-    private AirportDto arrivalDto;
     private AirplaneDto airplaneDto;
     private Date departureTime;
     private Date arrivalTime;

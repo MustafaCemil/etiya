@@ -1,14 +1,18 @@
 package com.etiya.etiya.service.impl;
 
+import com.etiya.etiya.Util.TPage;
 import com.etiya.etiya.dto.CustomersDto;
 import com.etiya.etiya.entity.Customers;
 import com.etiya.etiya.repository.CustomersRepository;
 import com.etiya.etiya.service.CustomersService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,13 +30,12 @@ public class CustomerServiceImpl implements CustomersService {
     }
 
     @Override
-    public List<CustomersDto> listeleme() {
-        List<Customers> customers = customersRepository.findAll();
-        List<CustomersDto> customersDto = new ArrayList<>();
-        for(Customers c:customers){
-            customersDto.add(modelMapper.map(c,CustomersDto.class));
-        }
-        return customersDto;
+    public Page<CustomersDto> listeleme(Pageable pageable) {
+        Page<Customers> data = customersRepository.findAll(pageable);
+        TPage tpage = new TPage<CustomersDto>();
+        CustomersDto[] dtos = modelMapper.map(data.getContent(),CustomersDto[].class);
+        tpage.setStat(data, Arrays.asList(dtos));
+        return (Page<CustomersDto>) tpage;
     }
 
     @Override

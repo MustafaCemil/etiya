@@ -34,6 +34,4 @@ public class Airport extends BaseEntity{
     @OneToMany(mappedBy = "departure")
     private Set<Cleander> departureAirport;
 
-    @OneToMany(mappedBy = "arrival")
-    private Set<Cleander> arrivalAirport;
 }

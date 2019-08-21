@@ -1,14 +1,19 @@
 package com.etiya.etiya.service.impl;
 
+import com.etiya.etiya.Util.TPage;
+import com.etiya.etiya.dto.AirplaneDto;
 import com.etiya.etiya.dto.AirportDto;
 import com.etiya.etiya.entity.Airport;
 import com.etiya.etiya.repository.AirportRepository;
 import com.etiya.etiya.service.AirportService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,15 +29,13 @@ public class AirportServiceImpl implements AirportService {
         this.modelMapper = modelMapper;
     }
 
-
     @Override
-    public List<AirportDto> listeleme() {
-        List<Airport> airport = airportRepository.findAll();
-        List<AirportDto> airportDto = new ArrayList<>();
-        for(Airport a:airport){
-            airportDto.add(modelMapper.map(a,AirportDto.class));
-        }
-        return airportDto;
+    public Page<AirportDto> listeleme(Pageable pageable) {
+        Page<Airport> data = airportRepository.findAll(pageable);
+        TPage tpage = new TPage<AirportDto>();
+        AirportDto[] dtos = modelMapper.map(data.getContent(),AirportDto[].class);
+        tpage.setStat(data, Arrays.asList(dtos));
+        return (Page<AirportDto>) tpage;
     }
 
     @Override

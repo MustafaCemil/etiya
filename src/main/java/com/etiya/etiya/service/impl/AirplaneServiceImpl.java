@@ -1,5 +1,6 @@
 package com.etiya.etiya.service.impl;
 
+import com.etiya.etiya.Util.TPage;
 import com.etiya.etiya.dto.AirplaneDto;
 import com.etiya.etiya.dto.CompanyDto;
 import com.etiya.etiya.entity.Airplane;
@@ -10,10 +11,13 @@ import com.etiya.etiya.service.AirplaneService;
 import com.etiya.etiya.service.CompanyService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,13 +34,12 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
-    public List<AirplaneDto> listeleme() {
-        List<Airplane> airplane = airplaneRepository.findAll();
-        List<AirplaneDto> airplaneDto = new ArrayList<>();
-        for(Airplane a:airplane){
-            airplaneDto.add(modelMapper.map(a,AirplaneDto.class));
-        }
-        return airplaneDto;
+    public Page<AirplaneDto> listeleme(Pageable pageable) {
+        Page<Airplane> data = airplaneRepository.findAll(pageable);
+        TPage tpage = new TPage<AirplaneDto>();
+        AirplaneDto[] dtos = modelMapper.map(data.getContent(),AirplaneDto[].class);
+        tpage.setStat(data, Arrays.asList(dtos));
+        return (Page<AirplaneDto>) tpage;
     }
 
     @Override
@@ -66,13 +69,13 @@ public class AirplaneServiceImpl implements AirplaneService {
     @Override
     public AirplaneDto guncelleme(Long id, AirplaneDto airplaneDto) {
         Airplane airplane = airplaneRepository.getOne(id);
+
         if(airplane.getId().equals(null))
             throw new IllegalArgumentException("Bu id'li kayıt bulunamadı.");
 
         airplane.setAirplaneName(airplaneDto.getAirplaneName());
         airplane.setSeatNumber(airplaneDto.getSeatNumber());
-        airplane.setCompany(airplaneDto.getCompany());
-
+        //airplane.setCompany(airplaneDto.getCompany());
         airplaneRepository.save(airplane);
         return modelMapper.map(airplane,AirplaneDto.class);
     }

@@ -1,12 +1,14 @@
 package com.etiya.etiya.service;
 
 import com.etiya.etiya.dto.CompanyDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface CompanyService {
 
-    List<CompanyDto> listeleme();
+    Page<CompanyDto> listeleme(Pageable pageable);
 
     CompanyDto kayitEkleme(CompanyDto companyDto);
 

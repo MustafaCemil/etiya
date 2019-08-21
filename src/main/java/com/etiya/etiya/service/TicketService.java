@@ -1,12 +1,14 @@
 package com.etiya.etiya.service;
 
 import com.etiya.etiya.dto.TicketDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface TicketService {
 
-    List<TicketDto> listeleme();
+    Page<TicketDto> listeleme(Pageable pageable);
 
     TicketDto kayitEkleme(TicketDto ticketDto);
 

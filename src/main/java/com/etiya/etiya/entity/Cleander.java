@@ -29,10 +29,6 @@ public class Cleander  extends BaseEntity{
     private Airport departure;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="arrival_airport_id")
-    private Airport arrival;
-
-    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="airplane_id")
     private Airplane airplane;
 
