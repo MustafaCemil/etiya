@@ -5,6 +5,7 @@ import com.etiya.etiya.service.CleanderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,9 @@ public class CleanderController {
 
     @RequestMapping(value = "/listeleme",method = RequestMethod.GET)
     @ApiOperation(value = "Listeleme işlemi", response = CleanderDto.class)
-    public ResponseEntity<List<CleanderDto>> listeleme(){
+    public ResponseEntity<List<CleanderDto>> listeleme(Pageable pageable){
         try {
-            return new ResponseEntity(cleanderService.listeleme(), HttpStatus.OK);
+            return new ResponseEntity(cleanderService.listeleme(pageable), HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

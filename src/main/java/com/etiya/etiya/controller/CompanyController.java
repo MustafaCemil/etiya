@@ -5,6 +5,7 @@ import com.etiya.etiya.service.CompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,9 @@ public class CompanyController {
 
     @RequestMapping(value = "/listeleme",method = RequestMethod.GET)
     @ApiOperation(value = "Listeleme işlemi", response = CompanyDto.class)
-    public ResponseEntity<List<CompanyDto>> listeleme(){
+    public ResponseEntity<List<CompanyDto>> listeleme(Pageable pageable){
         try {
-            return new ResponseEntity(companyService.listeleme(), HttpStatus.OK);
+            return new ResponseEntity(companyService.listeleme(pageable), HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
