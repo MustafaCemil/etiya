@@ -1,4 +1,4 @@
-package com.etiya.etiya.Util;
+package com.etiya.etiya.util;
 
 
 import org.springframework.data.domain.Page;
