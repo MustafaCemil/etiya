@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name = "flights")
+@Table(name = "tickets")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
