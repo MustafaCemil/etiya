@@ -29,6 +29,9 @@ public class Cleander  extends BaseEntity{
     @Column(name = "seat_number")
     private Integer seatNumber;
 
+    @Column(name = "seat_full")
+    private Integer seatFull;
+
     @Column(name = "flight_time")
     @Temporal(TemporalType.DATE)
     private Date flightTime;

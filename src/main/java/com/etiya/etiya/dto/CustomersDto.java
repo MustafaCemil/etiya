@@ -21,6 +21,7 @@ public class CustomersDto {
     private String email;
     private Date birthDay;
     private String phoneNumber;
+    private String indirimKuponu;
     private Set<TicketDto> ticketDto;
 
 }

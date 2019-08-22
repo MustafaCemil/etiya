@@ -16,6 +16,7 @@ public class CleanderDto {
     private Float price;
     private AirplaneDto airplane;
     private Integer seatNumber;
+    private Integer seatFull;
     private Date flightTime;
     private AirportDto departure;
     private Date departureTime;

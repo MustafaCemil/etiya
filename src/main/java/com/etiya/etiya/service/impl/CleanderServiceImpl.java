@@ -56,6 +56,7 @@ public class CleanderServiceImpl implements CleanderService {
         Integer seatNumber = airplane.getSeatNumber();
         Cleander cleanderDb = modelMapper.map(cleanderDto, Cleander.class);
         cleanderDb.setSeatNumber(seatNumber);
+        cleanderDb.setSeatFull(seatNumber);
         cleanderDb = cleanderRepository.save(cleanderDb);
         return modelMapper.map(cleanderDb, CleanderDto.class);
     }
@@ -96,6 +97,8 @@ public class CleanderServiceImpl implements CleanderService {
         cleander.setAirplane(airplane);
         cleander.setDepartureTime(cleanderDto.getDepartureTime());
         cleander.setArrivalTime(cleanderDto.getArrivalTime());
+        cleander.setSeatNumber(cleanderDto.getSeatNumber());
+        cleander.setSeatFull(cleanderDto.getSeatFull());
 
         cleanderRepository.save(cleander);
         return modelMapper.map(cleander,CleanderDto.class);

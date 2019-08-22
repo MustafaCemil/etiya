@@ -12,7 +12,7 @@ public class TicketDto {
     private Long id;
     private CustomersDto customersDto;
     private CleanderDto cleanderDto;
-    private String seatNumber;
+    private Integer seatNumber;
     private String pnr;
     private Float price;
 }

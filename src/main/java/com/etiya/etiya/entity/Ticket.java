@@ -27,7 +27,7 @@ public class Ticket extends BaseEntity{
     private Cleander cleander;
 
     @Column(name = "seat_number")
-    private String seatNumber;
+    private Integer seatNumber;
 
     @Column(name = "pnr")
     private String pnr;

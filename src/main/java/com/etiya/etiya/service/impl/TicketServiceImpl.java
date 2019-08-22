@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Random;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -51,7 +52,49 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public TicketDto kayitEkleme(TicketDto ticketDto) {
+        CleanderDto cleanderDto = ticketDto.getCleanderDto();
+        CustomersDto customersDto = ticketDto.getCustomersDto();
+        Long customersId = customersDto.getId();
+        Long cleanderId = cleanderDto.getId();
+        Customers customers = customersRepository.getOne(customersId);
+        Cleander cleander = cleanderRepository.getOne(cleanderId);
+
+        //PNR random uretme
+        Random random=new Random();
+        String firstName = customers.getFirstName();
+        String lastName = customers.getLastName();
+        String phoneNumber = customers.getPhoneNumber();
+
+        int randFn = random.nextInt(firstName.length());
+        int randLn = random.nextInt(lastName.length());
+        int randPn = random.nextInt(phoneNumber.length());
+        char fn = firstName.charAt(randFn);
+        char ln = lastName.charAt(randLn);
+        char pn = phoneNumber.charAt(randPn);
+
+        String pnr = "PNR" + fn + ln + pn;
+
+        //koltuk numarasi sirayla atama
+        Integer seatNumber = cleander.getSeatNumber();
+        Integer seatFull = cleander.getSeatFull();
+        Integer ticketSeat = 0;
+        Integer seatUpdate = 0;
+
+        if(seatNumber.equals(0)) {
+            System.err.println("Ucak dolu");
+        } else {
+            ticketSeat = (seatFull + 1) - seatNumber;
+        }
+        seatUpdate = seatFull - ticketSeat;
+        cleander.setSeatNumber(seatUpdate);
+        cleanderRepository.save(cleander);
+
+        //ucretlendirme
+
+
         Ticket ticketDb = modelMapper.map(ticketDto, Ticket.class);
+        ticketDb.setSeatNumber(ticketSeat);
+        ticketDb.setPnr(pnr);
         ticketDb = ticketRepository.save(ticketDb);
         return modelMapper.map(ticketDb, TicketDto.class);
     }
