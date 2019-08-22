@@ -58,7 +58,7 @@ public class AirplaneController {
         }
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/guncelle/{id}",method = RequestMethod.PUT)
     @ApiOperation(value = "Güncelleme işlemi", response = AirplaneDto.class)
     public ResponseEntity<AirplaneDto> guncelleme(@PathVariable("id") Long id, @Valid @RequestBody AirplaneDto airplaneDto){
         try {
@@ -68,7 +68,7 @@ public class AirplaneController {
         }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/silme/{id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "Silme işlemi", response = AirplaneDto.class)
     public ResponseEntity<Boolean> silme(@PathVariable("id") Long id){
         try{

@@ -56,7 +56,7 @@ public class TicketController {
         }
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/guncelleme/{id}",method = RequestMethod.PUT)
     @ApiOperation(value = "Güncelleme işlemi", response = TicketDto.class)
     public ResponseEntity<TicketDto> guncelleme(@PathVariable("id") Long id, @Valid @RequestBody TicketDto ticketDto){
         try {
@@ -66,7 +66,7 @@ public class TicketController {
         }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/silme/{id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "Silme işlemi", response = TicketDto.class)
     public ResponseEntity<Boolean> silme(@PathVariable("id") Long id){
         try{

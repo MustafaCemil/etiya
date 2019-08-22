@@ -56,7 +56,7 @@ public class CustomersController {
         }
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/guncelleme/{id}",method = RequestMethod.PUT)
     @ApiOperation(value = "Güncelleme işlemi", response = CustomersDto.class)
     public ResponseEntity<CustomersDto> guncelleme(@PathVariable("id") Long id, @Valid @RequestBody CustomersDto customersDto){
         try {
@@ -66,7 +66,7 @@ public class CustomersController {
         }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/silme/{id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "Silme işlemi", response = CustomersDto.class)
     public ResponseEntity<Boolean> silme(@PathVariable("id") Long id){
         try{
