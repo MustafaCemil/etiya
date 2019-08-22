@@ -5,6 +5,7 @@ import com.etiya.etiya.interceptor.AuthenticationTokenFilter;
 import com.etiya.etiya.security.CsrfHeaderFilter;
 import com.etiya.etiya.security.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,9 +30,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
 
+    @Qualifier("jwtUserDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
 
+
+    public SecurityConfiguration(UserDetailsService userDetailsService){
+        this.userDetailsService = userDetailsService;
+    }
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {

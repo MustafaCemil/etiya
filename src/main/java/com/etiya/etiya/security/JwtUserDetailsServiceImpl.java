@@ -7,17 +7,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
+    public JwtUserDetailsServiceImpl(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.emailBul(username);
+        User user = userRepository.findByEmailIgnoreCase(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No User found with username '%s'.", username));
         }else {

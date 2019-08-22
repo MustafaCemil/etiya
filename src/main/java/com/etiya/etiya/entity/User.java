@@ -43,6 +43,4 @@ public class User extends BaseEntity {
     @Column(name = "role")
     private String role;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Ticket> tickets = new HashSet<>();
 }

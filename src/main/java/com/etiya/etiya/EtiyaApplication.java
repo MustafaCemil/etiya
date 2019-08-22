@@ -19,6 +19,7 @@ public class EtiyaApplication {
 	public ModelMapper getModelMapper(){
 		return new ModelMapper();
 	}
+
 	@Bean
 	public CorsFilter corsFilter() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

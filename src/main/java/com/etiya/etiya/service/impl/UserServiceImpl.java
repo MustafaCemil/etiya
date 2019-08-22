@@ -6,19 +6,17 @@ import com.etiya.etiya.service.UserService;
 import com.etiya.etiya.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
 
     @Override
     public User kayit(User user) {
@@ -35,6 +33,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User emailBul(String email) {
-        return userRepository.emailBul(email);
+        return userRepository.findByEmailIgnoreCase(email);
     }
 }
