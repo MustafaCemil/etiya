@@ -43,7 +43,7 @@ public class Customers extends BaseEntity{
     @Column(name = "phone_number",length = 11)
     private String phoneNumber;
 
-    @Column(name = "indirim_kuponu")
-    private String indirimKuponu;
+    @Column(name = "discount_coupon")
+    private String discountCoupon;
 
 }

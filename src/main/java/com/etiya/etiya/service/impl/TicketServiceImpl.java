@@ -58,6 +58,7 @@ public class TicketServiceImpl implements TicketService {
         Long cleanderId = cleanderDto.getId();
         Customers customers = customersRepository.getOne(customersId);
         Cleander cleander = cleanderRepository.getOne(cleanderId);
+        Ticket ticketDb = modelMapper.map(ticketDto, Ticket.class);
 
         //PNR random uretme
         Random random=new Random();
@@ -90,9 +91,17 @@ public class TicketServiceImpl implements TicketService {
         cleanderRepository.save(cleander);
 
         //ucretlendirme
+        Float priceTicket = cleander.getPrice();
+        String discountCoupon = customers.getDiscountCoupon();
 
+        if(discountCoupon.equals(null)) {
+            ticketDb.setPrice(priceTicket);
 
-        Ticket ticketDb = modelMapper.map(ticketDto, Ticket.class);
+        } else{
+            Float newPrice = priceTicket - (priceTicket / 10);
+            ticketDb.setPrice(newPrice);
+        }
+
         ticketDb.setSeatNumber(ticketSeat);
         ticketDb.setPnr(pnr);
         ticketDb = ticketRepository.save(ticketDb);

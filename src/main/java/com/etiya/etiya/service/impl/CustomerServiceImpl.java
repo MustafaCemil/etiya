@@ -70,6 +70,7 @@ public class CustomerServiceImpl implements CustomersService {
         customers.setGender(customersDto.getGender());
         customers.setBirthDay(customersDto.getBirthDay());
         customers.setPhoneNumber(customersDto.getPhoneNumber());
+        customers.setIndirimKuponu(customersDto.getIndirimKuponu());
 
         customersRepository.save(customers);
         return modelMapper.map(customers,CustomersDto.class);
