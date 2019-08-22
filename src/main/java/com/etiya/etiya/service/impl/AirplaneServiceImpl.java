@@ -1,5 +1,7 @@
 package com.etiya.etiya.service.impl;
 
+import com.etiya.etiya.dto.CompanyDto;
+import com.etiya.etiya.entity.Company;
 import com.etiya.etiya.util.TPage;
 import com.etiya.etiya.dto.AirplaneDto;
 import com.etiya.etiya.entity.Airplane;
@@ -63,12 +65,15 @@ public class AirplaneServiceImpl implements AirplaneService {
     public AirplaneDto guncelleme(Long id, AirplaneDto airplaneDto) {
         Airplane airplane = airplaneRepository.getOne(id);
 
+        CompanyDto companyDto = airplaneDto.getCompany();
+        Company company = modelMapper.map(companyDto,Company.class);
+
         if(airplane.getId().equals(null))
             throw new IllegalArgumentException("Bu id'li kayıt bulunamadı.");
 
         airplane.setAirplaneName(airplaneDto.getAirplaneName());
         airplane.setSeatNumber(airplaneDto.getSeatNumber());
-        //airplane.setCompany(airplaneDto.getCompany());
+        airplane.setCompany(company);
         airplaneRepository.save(airplane);
         return modelMapper.map(airplane,AirplaneDto.class);
     }

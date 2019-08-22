@@ -1,7 +1,9 @@
 package com.etiya.etiya.controller;
 
 import com.etiya.etiya.dto.AirplaneDto;
+import com.etiya.etiya.dto.CompanyDto;
 import com.etiya.etiya.service.AirplaneService;
+import com.etiya.etiya.service.CompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class AirplaneController {
     @Autowired
     private AirplaneService airplaneService;
 
-    public AirplaneController(AirplaneService airplaneService){
+    public AirplaneController(AirplaneService airplaneService, CompanyService companyService){
         this.airplaneService = airplaneService;
     }
 

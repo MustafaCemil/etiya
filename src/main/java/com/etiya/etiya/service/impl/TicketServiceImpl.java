@@ -1,5 +1,11 @@
 package com.etiya.etiya.service.impl;
 
+import com.etiya.etiya.dto.CleanderDto;
+import com.etiya.etiya.dto.CustomersDto;
+import com.etiya.etiya.entity.Cleander;
+import com.etiya.etiya.entity.Customers;
+import com.etiya.etiya.repository.CleanderRepository;
+import com.etiya.etiya.repository.CustomersRepository;
 import com.etiya.etiya.util.TPage;
 import com.etiya.etiya.dto.TicketDto;
 import com.etiya.etiya.entity.Ticket;
@@ -12,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -19,13 +26,19 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private TicketRepository ticketRepository;
     @Autowired
+    private CleanderRepository cleanderRepository;
+    @Autowired
+    private CustomersRepository customersRepository;
+    @Autowired
     private ModelMapper modelMapper;
 
-    public TicketServiceImpl(TicketRepository ticketRepository, ModelMapper modelMapper){
+    public TicketServiceImpl( CleanderRepository cleanderRepository,TicketRepository ticketRepository,
+                              CustomersRepository customersRepository, ModelMapper modelMapper){
         this.ticketRepository = ticketRepository;
+        this.cleanderRepository = cleanderRepository;
+        this.customersRepository = customersRepository;
         this.modelMapper = modelMapper;
     }
-
 
     @Override
     public Page<TicketDto> listeleme(Pageable pageable) {
@@ -64,11 +77,18 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public TicketDto guncelleme(Long id, TicketDto ticketDto) {
         Ticket ticket = ticketRepository.getOne(id);
+
+        CleanderDto cleanderDto = ticketDto.getCleanderDto();
+        Cleander cleander = modelMapper.map(cleanderDto, Cleander.class);
+
+        CustomersDto customersDto = ticketDto.getCustomersDto();
+        Customers customers = modelMapper.map(customersDto,Customers.class);
+
         if(ticket.getId().equals(null))
             throw new IllegalArgumentException("Bu id'li kayıt bulunamadı.");
 
-      //  ticket.setCleander(ticketDto.getCleanderDto());
-     //   ticket.setCustomers(ticketDto.getCustomersDto());
+        ticket.setCleander(cleander);
+        ticket.setCustomers(customers);
         ticket.setPnr(ticketDto.getPnr());
         ticket.setPrice(ticketDto.getPrice());
         ticket.setSeatNumber(ticketDto.getSeatNumber());

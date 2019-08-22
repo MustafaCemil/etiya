@@ -30,7 +30,7 @@ public class Customers extends BaseEntity{
     @Column(name = "gender",length = 50)
     private String gender;
 
-    @OneToMany(mappedBy = "customers")
+    @OneToMany(mappedBy = "customers",fetch = FetchType.LAZY)
     private Set<Ticket> ticket;
 
     @Column(name = "email",length = 50,unique = true)

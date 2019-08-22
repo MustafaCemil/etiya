@@ -20,18 +20,15 @@ public class Airport extends BaseEntity{
     private Long id;
 
     @Column(name = "airport_name")
-    @NotEmpty
     private String airportName;
 
     @Column(name = "airport_city")
-    @NotEmpty
     private String airportCity;
 
     @Column(name = "airport_country")
-    @NotEmpty
     private String airportCountry;
 
-    @OneToMany(mappedBy = "departure")
+    @OneToMany(mappedBy = "departure",fetch = FetchType.LAZY)
     private Set<Cleander> departureAirport;
 
 }

@@ -3,7 +3,6 @@ package com.etiya.etiya.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.Set;
 
@@ -20,19 +19,25 @@ public class Cleander  extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "price")
+    private Float price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="airplane_id")
+    private Airplane airplane;
+
+    @Column(name = "seat_number")
+    private Integer seatNumber;
+
     @Column(name = "flight_time")
     @Temporal(TemporalType.DATE)
     private Date flightTime;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name="departure_airport_id")
     private Airport departure;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="airplane_id")
-    private Airplane airplane;
-
-    @OneToMany(mappedBy = "cleander")
+    @OneToMany(mappedBy = "cleander",fetch = FetchType.LAZY)
     private Set<Ticket> ticket;
 
     @Column(name = "departure_time")

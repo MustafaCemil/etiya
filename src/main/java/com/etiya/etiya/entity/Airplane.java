@@ -22,13 +22,13 @@ public class Airplane extends BaseEntity {
     @Column(name = "airplane_name")
     private String airplaneName;
 
-    @Column(name = "seatNumber")
+    @Column(name = "seat_number")
     private Integer seatNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="company_id")
     private Company company;
 
-    @OneToMany(mappedBy = "airplane")
+    @OneToMany(mappedBy = "airplane",fetch = FetchType.LAZY)
     private Set<Cleander> cleander;
 }

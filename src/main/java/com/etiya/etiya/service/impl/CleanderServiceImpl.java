@@ -1,5 +1,11 @@
 package com.etiya.etiya.service.impl;
 
+import com.etiya.etiya.dto.AirplaneDto;
+import com.etiya.etiya.dto.AirportDto;
+import com.etiya.etiya.entity.Airplane;
+import com.etiya.etiya.entity.Airport;
+import com.etiya.etiya.repository.AirplaneRepository;
+import com.etiya.etiya.repository.TicketRepository;
 import com.etiya.etiya.util.TPage;
 import com.etiya.etiya.dto.CleanderDto;
 import com.etiya.etiya.entity.Cleander;
@@ -19,10 +25,17 @@ public class CleanderServiceImpl implements CleanderService {
     @Autowired
     private CleanderRepository cleanderRepository;
     @Autowired
+    private AirplaneRepository airplaneRepository;
+    @Autowired
+    private TicketRepository ticketRepository;
+    @Autowired
     private ModelMapper modelMapper;
 
-    public CleanderServiceImpl(CleanderRepository cleanderRepository, ModelMapper modelMapper){
+    public CleanderServiceImpl(CleanderRepository cleanderRepository, AirplaneRepository airplaneRepository,
+                               TicketRepository ticketRepository, ModelMapper modelMapper){
         this.cleanderRepository = cleanderRepository;
+        this.airplaneRepository = airplaneRepository;
+        this.ticketRepository = ticketRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -37,7 +50,12 @@ public class CleanderServiceImpl implements CleanderService {
 
     @Override
     public CleanderDto kayitEkleme(CleanderDto cleanderDto) {
+        AirplaneDto airplaneDto = cleanderDto.getAirplane();
+        Long airplaneId = airplaneDto.getId();
+        Airplane airplane = airplaneRepository.getOne(airplaneId);
+        Integer seatNumber = airplane.getSeatNumber();
         Cleander cleanderDb = modelMapper.map(cleanderDto, Cleander.class);
+        cleanderDb.setSeatNumber(seatNumber);
         cleanderDb = cleanderRepository.save(cleanderDb);
         return modelMapper.map(cleanderDb, CleanderDto.class);
     }
@@ -63,15 +81,21 @@ public class CleanderServiceImpl implements CleanderService {
     @Override
     public CleanderDto guncelleme(Long id, CleanderDto cleanderDto) {
         Cleander cleander = cleanderRepository.getOne(id);
+
+        AirportDto airportDto = cleanderDto.getDeparture();
+        Airport airport = modelMapper.map(airportDto,Airport.class);
+
+        AirplaneDto airplaneDto = cleanderDto.getAirplane();
+        Airplane airplane = modelMapper.map(airplaneDto,Airplane.class);
+
         if(cleander.getId().equals(null))
             throw new IllegalArgumentException("Bu id'li kayıt bulunamadı.");
 
         cleander.setFlightTime(cleanderDto.getFlightTime());
-        //cleander.setArrival(cleanderDto.getArrivalDto());
-        //cleander.setDeparture(cleanderDto.getDepartureDto());
-        //cleander.setAirplane(cleanderDto.getAirplaneDto());
-        //cleander.setDepartureTime(cleanderDto.getDepartureTime());
-        //cleander.setArrivalTime(cleanderDto.getArrivalTime());
+        cleander.setDeparture(airport);
+        cleander.setAirplane(airplane);
+        cleander.setDepartureTime(cleanderDto.getDepartureTime());
+        cleander.setArrivalTime(cleanderDto.getArrivalTime());
 
         cleanderRepository.save(cleander);
         return modelMapper.map(cleander,CleanderDto.class);

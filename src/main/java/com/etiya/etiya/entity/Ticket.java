@@ -18,23 +18,20 @@ public class Ticket extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "customers_id")
     private Customers customers;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name="cleander_id")
     private Cleander cleander;
 
     @Column(name = "seat_number")
-    @NotEmpty
     private String seatNumber;
 
     @Column(name = "pnr")
-    @NotEmpty
     private String pnr;
 
     @Column(name = "price")
-    @NotEmpty
     private Float price;
 }
