@@ -16,12 +16,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/takvim")
 @Api(value = "Project APIs")
-public class CleanderController {
+public class CalendarController {
 
     @Autowired
     private CalendarService calendarService;
 
-    public CleanderController(CalendarService calendarService){
+    public CalendarController(CalendarService calendarService){
         this.calendarService = calendarService;
     }
 
