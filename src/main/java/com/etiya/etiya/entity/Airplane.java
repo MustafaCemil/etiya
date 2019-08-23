@@ -30,5 +30,5 @@ public class Airplane extends BaseEntity {
     private Company company;
 
     @OneToMany(mappedBy = "airplane",fetch = FetchType.LAZY)
-    private Set<Cleander> cleander;
+    private Set<Calendar> calendar;
 }

@@ -13,7 +13,7 @@ import java.util.Set;
 @ToString
 @Data
 @EqualsAndHashCode
-public class Cleander  extends BaseEntity{
+public class Calendar extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -17,5 +17,5 @@ public class AirportDto {
     private String airportName;
     private String airportCity;
     private String airportCountry;
-    private Set<CleanderDto> departureAirport;
+    private Set<CalendarDto> departureAirport;
 }

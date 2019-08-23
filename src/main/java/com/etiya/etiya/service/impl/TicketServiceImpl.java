@@ -1,10 +1,10 @@
 package com.etiya.etiya.service.impl;
 
-import com.etiya.etiya.dto.CleanderDto;
+import com.etiya.etiya.dto.CalendarDto;
 import com.etiya.etiya.dto.CustomersDto;
-import com.etiya.etiya.entity.Cleander;
+import com.etiya.etiya.entity.Calendar;
 import com.etiya.etiya.entity.Customers;
-import com.etiya.etiya.repository.CleanderRepository;
+import com.etiya.etiya.repository.CalendarRepository;
 import com.etiya.etiya.repository.CustomersRepository;
 import com.etiya.etiya.util.TPage;
 import com.etiya.etiya.dto.TicketDto;
@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Random;
 
 @Service
@@ -27,16 +26,16 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private TicketRepository ticketRepository;
     @Autowired
-    private CleanderRepository cleanderRepository;
+    private CalendarRepository calendarRepository;
     @Autowired
     private CustomersRepository customersRepository;
     @Autowired
     private ModelMapper modelMapper;
 
-    public TicketServiceImpl( CleanderRepository cleanderRepository,TicketRepository ticketRepository,
-                              CustomersRepository customersRepository, ModelMapper modelMapper){
+    public TicketServiceImpl(CalendarRepository calendarRepository, TicketRepository ticketRepository,
+                             CustomersRepository customersRepository, ModelMapper modelMapper){
         this.ticketRepository = ticketRepository;
-        this.cleanderRepository = cleanderRepository;
+        this.calendarRepository = calendarRepository;
         this.customersRepository = customersRepository;
         this.modelMapper = modelMapper;
     }
@@ -52,12 +51,12 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public TicketDto kayitEkleme(TicketDto ticketDto) {
-        CleanderDto cleanderDto = ticketDto.getCleanderDto();
+        CalendarDto calendarDto = ticketDto.getCalendarDto();
         CustomersDto customersDto = ticketDto.getCustomersDto();
         Long customersId = customersDto.getId();
-        Long cleanderId = cleanderDto.getId();
+        Long cleanderId = calendarDto.getId();
         Customers customers = customersRepository.getOne(customersId);
-        Cleander cleander = cleanderRepository.getOne(cleanderId);
+        Calendar calendar = calendarRepository.getOne(cleanderId);
         Ticket ticketDb = modelMapper.map(ticketDto, Ticket.class);
 
         //PNR random uretme
@@ -76,8 +75,8 @@ public class TicketServiceImpl implements TicketService {
         String pnr = "PNR" + fn + ln + pn;
 
         //koltuk numarasi sirayla atama
-        Integer seatNumber = cleander.getSeatNumber();
-        Integer seatFull = cleander.getSeatFull();
+        Integer seatNumber = calendar.getSeatNumber();
+        Integer seatFull = calendar.getSeatFull();
         Integer ticketSeat = 0;
         Integer seatUpdate = 0;
 
@@ -87,11 +86,11 @@ public class TicketServiceImpl implements TicketService {
             ticketSeat = (seatFull + 1) - seatNumber;
         }
         seatUpdate = seatFull - ticketSeat;
-        cleander.setSeatNumber(seatUpdate);
-        cleanderRepository.save(cleander);
+        calendar.setSeatNumber(seatUpdate);
+        calendarRepository.save(calendar);
 
         //ucretlendirme
-        Float priceTicket = cleander.getPrice();
+        Float priceTicket = calendar.getPrice();
         String discountCoupon = customers.getDiscountCoupon();
 
         if(discountCoupon.equals(null)) {
@@ -120,7 +119,7 @@ public class TicketServiceImpl implements TicketService {
         if(ticket.getId().equals(null))
             throw new IllegalArgumentException("Bu id'li kayıt bulunamadı.");
         ticket.setCustomers(null);
-        ticket.setCleander(null);
+        ticket.setCalendar(null);
         ticketRepository.save(ticket);
         ticketRepository.deleteById(id);
         return true;
@@ -130,8 +129,8 @@ public class TicketServiceImpl implements TicketService {
     public TicketDto guncelleme(Long id, TicketDto ticketDto) {
         Ticket ticket = ticketRepository.getOne(id);
 
-        CleanderDto cleanderDto = ticketDto.getCleanderDto();
-        Cleander cleander = modelMapper.map(cleanderDto, Cleander.class);
+        CalendarDto calendarDto = ticketDto.getCalendarDto();
+        Calendar calendar = modelMapper.map(calendarDto, Calendar.class);
 
         CustomersDto customersDto = ticketDto.getCustomersDto();
         Customers customers = modelMapper.map(customersDto,Customers.class);
@@ -139,7 +138,7 @@ public class TicketServiceImpl implements TicketService {
         if(ticket.getId().equals(null))
             throw new IllegalArgumentException("Bu id'li kayıt bulunamadı.");
 
-        ticket.setCleander(cleander);
+        ticket.setCalendar(calendar);
         ticket.setCustomers(customers);
         ticket.setPnr(ticketDto.getPnr());
         ticket.setPrice(ticketDto.getPrice());

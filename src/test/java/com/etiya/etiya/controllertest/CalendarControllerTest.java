@@ -1,6 +1,6 @@
 package com.etiya.etiya.controllertest;
 
-import com.etiya.etiya.entity.Cleander;
+import com.etiya.etiya.entity.Calendar;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class CleanderControllerTest {
+public class CalendarControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
 
-    public CleanderControllerTest(TestRestTemplate restTemplate){
+    public CalendarControllerTest(TestRestTemplate restTemplate){
         this.restTemplate = restTemplate;
     }
 
@@ -39,7 +39,7 @@ public class CleanderControllerTest {
 
     @Test
     public void testKayitBul() {
-        ResponseEntity<Cleander> response = restTemplate.getForEntity("http://localhost:8080/takvim/1", Cleander.class);
+        ResponseEntity<Calendar> response = restTemplate.getForEntity("http://localhost:8080/takvim/1", Calendar.class);
         MatcherAssert.assertThat(response.getStatusCodeValue(), Matchers.equalTo(200));
         MatcherAssert.assertThat(response.getBody().getPrice(), Matchers.equalTo(100.0));
     }
@@ -59,29 +59,29 @@ public class CleanderControllerTest {
 
     @Test
     public void testEkleme() {
-        Cleander cleander = new Cleander();
-        cleander.setSeatNumber(50);
+        Calendar calendar = new Calendar();
+        calendar.setSeatNumber(50);
 
         RestTemplate restTemplate = new RestTemplate();
-        URI location = restTemplate.postForLocation("http://localhost:8080/takvim/ekle", cleander);
+        URI location = restTemplate.postForLocation("http://localhost:8080/takvim/ekle", calendar);
 
-        Cleander cleander1 = restTemplate.getForObject(location, Cleander.class);
+        Calendar calendar1 = restTemplate.getForObject(location, Calendar.class);
 
-        MatcherAssert.assertThat(cleander1.getSeatNumber(), Matchers.equalTo(cleander.getSeatNumber()));
+        MatcherAssert.assertThat(calendar1.getSeatNumber(), Matchers.equalTo(calendar.getSeatNumber()));
     }
 
     @Test
     public void testGuncelleme() {
         RestTemplate restTemplate = new RestTemplate();
-        Cleander cleander = restTemplate.getForObject("http://localhost:8080/takvim/guncelle/1", Cleander.class);
+        Calendar calendar = restTemplate.getForObject("http://localhost:8080/takvim/guncelle/1", Calendar.class);
 
-        MatcherAssert.assertThat(cleander.getSeatNumber(), Matchers.equalTo(80));
+        MatcherAssert.assertThat(calendar.getSeatNumber(), Matchers.equalTo(80));
 
-        cleander.setSeatNumber(50);
-        restTemplate.put("http://localhost:8080/takvim/guncelle/1", cleander);
-        cleander = restTemplate.getForObject("http://localhost:8080/takvim/guncelle/1", Cleander.class);
+        calendar.setSeatNumber(50);
+        restTemplate.put("http://localhost:8080/takvim/guncelle/1", calendar);
+        calendar = restTemplate.getForObject("http://localhost:8080/takvim/guncelle/1", Calendar.class);
 
-        MatcherAssert.assertThat(cleander.getSeatNumber(), Matchers.equalTo(50));
+        MatcherAssert.assertThat(calendar.getSeatNumber(), Matchers.equalTo(50));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class CleanderControllerTest {
         restTemplate.delete("http://localhost:8080/takvim/silme/1");
 
         try {
-            restTemplate.getForEntity("http://localhost:8080/takvim/silme/1", Cleander.class);
+            restTemplate.getForEntity("http://localhost:8080/takvim/silme/1", Calendar.class);
             Assert.fail("");
         } catch (HttpClientErrorException ex) {
             MatcherAssert.assertThat(ex.getStatusCode().value(), Matchers.equalTo(404));

@@ -3,7 +3,6 @@ package com.etiya.etiya.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity
@@ -29,6 +28,6 @@ public class Airport extends BaseEntity{
     private String airportCountry;
 
     @OneToMany(mappedBy = "departure",fetch = FetchType.LAZY)
-    private Set<Cleander> departureAirport;
+    private Set<Calendar> departureAirport;
 
 }

@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CleanderDto {
+public class CalendarDto {
 
     private Long id;
     private Float price;

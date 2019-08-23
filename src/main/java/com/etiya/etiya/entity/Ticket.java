@@ -3,7 +3,6 @@ package com.etiya.etiya.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "ticket")
@@ -24,7 +23,7 @@ public class Ticket extends BaseEntity{
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name="cleander_id")
-    private Cleander cleander;
+    private Calendar calendar;
 
     @Column(name = "seat_number")
     private Integer seatNumber;
