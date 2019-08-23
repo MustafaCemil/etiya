@@ -2,8 +2,6 @@ package com.etiya.etiya.controller;
 
 import com.etiya.etiya.dto.TicketDto;
 import com.etiya.etiya.service.TicketService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/bilet")
-@Api(value = "Project APIs")
 public class TicketController {
 
     @Autowired
@@ -26,7 +23,6 @@ public class TicketController {
     }
 
     @RequestMapping(value = "/listeleme",method = RequestMethod.GET)
-    @ApiOperation(value = "Listeleme işlemi", response = TicketDto.class)
     public ResponseEntity<List<TicketDto>> listeleme(Pageable pageable){
         try {
             return new ResponseEntity(ticketService.listeleme(pageable), HttpStatus.OK);
@@ -36,7 +32,6 @@ public class TicketController {
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET )
-    @ApiOperation(value = "Tek kayit bulma", response = TicketDto.class)
     public ResponseEntity<TicketDto> tekKayit(@PathVariable("id") Long id){
         TicketDto ticketDto =  ticketService.kayitBul(id);
         try {
@@ -47,7 +42,6 @@ public class TicketController {
     }
 
     @RequestMapping(value = "/ekle",method = RequestMethod.POST)
-    @ApiOperation(value = "Ekleme işlemi", response = TicketDto.class)
     public ResponseEntity<TicketDto> ekleme(@Valid @RequestBody TicketDto ticketDto){
         try{
             return new ResponseEntity(ticketService.kayitEkleme(ticketDto),HttpStatus.OK);
@@ -57,7 +51,6 @@ public class TicketController {
     }
 
     @RequestMapping(value = "/guncelleme/{id}",method = RequestMethod.PUT)
-    @ApiOperation(value = "Güncelleme işlemi", response = TicketDto.class)
     public ResponseEntity<TicketDto> guncelleme(@PathVariable("id") Long id, @Valid @RequestBody TicketDto ticketDto){
         try {
             return new ResponseEntity(ticketService.guncelleme(id,ticketDto),HttpStatus.OK);
@@ -67,7 +60,6 @@ public class TicketController {
     }
 
     @RequestMapping(value = "/silme/{id}", method = RequestMethod.DELETE)
-    @ApiOperation(value = "Silme işlemi", response = TicketDto.class)
     public ResponseEntity<Boolean> silme(@PathVariable("id") Long id){
         try{
             return new ResponseEntity(ticketService.silme(id),HttpStatus.OK);

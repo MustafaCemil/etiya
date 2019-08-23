@@ -4,8 +4,6 @@ import com.etiya.etiya.dto.AirplaneDto;
 import com.etiya.etiya.dto.CompanyDto;
 import com.etiya.etiya.service.AirplaneService;
 import com.etiya.etiya.service.CompanyService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/ucak")
-@Api(value = "Project APIs")
 public class AirplaneController {
 
     @Autowired
@@ -28,7 +25,6 @@ public class AirplaneController {
     }
 
     @RequestMapping(value = "/listeleme",method = RequestMethod.GET)
-    @ApiOperation(value = "Listeleme işlemi", response = AirplaneDto.class)
     public ResponseEntity<List<AirplaneDto>> listeleme(Pageable pageable){
         try {
             return new ResponseEntity(airplaneService.listeleme(pageable), HttpStatus.OK);
@@ -38,7 +34,6 @@ public class AirplaneController {
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET )
-    @ApiOperation(value = "Tek kayit bulma", response = AirplaneDto.class)
     public ResponseEntity<AirplaneDto> tekKayit(@PathVariable("id") Long id){
         AirplaneDto airplaneDto =  airplaneService.kayitBul(id);
         try {
@@ -49,7 +44,6 @@ public class AirplaneController {
     }
 
     @RequestMapping(value = "/ekle",method = RequestMethod.POST)
-    @ApiOperation(value = "Ekleme işlemi", response = AirplaneDto.class)
     public ResponseEntity<AirplaneDto> ekleme(@Valid @RequestBody AirplaneDto airplaneDto){
         try{
             return new ResponseEntity(airplaneService.kayitEkleme(airplaneDto),HttpStatus.OK);
@@ -59,7 +53,6 @@ public class AirplaneController {
     }
 
     @RequestMapping(value = "/guncelle/{id}",method = RequestMethod.PUT)
-    @ApiOperation(value = "Güncelleme işlemi", response = AirplaneDto.class)
     public ResponseEntity<AirplaneDto> guncelleme(@PathVariable("id") Long id, @Valid @RequestBody AirplaneDto airplaneDto){
         try {
             return new ResponseEntity(airplaneService.guncelleme(id,airplaneDto),HttpStatus.OK);
@@ -69,7 +62,6 @@ public class AirplaneController {
     }
 
     @RequestMapping(value = "/silme/{id}", method = RequestMethod.DELETE)
-    @ApiOperation(value = "Silme işlemi", response = AirplaneDto.class)
     public ResponseEntity<Boolean> silme(@PathVariable("id") Long id){
         try{
             return new ResponseEntity(airplaneService.silme(id),HttpStatus.OK);

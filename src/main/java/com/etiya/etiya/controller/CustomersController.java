@@ -2,8 +2,6 @@ package com.etiya.etiya.controller;
 
 import com.etiya.etiya.dto.CustomersDto;
 import com.etiya.etiya.service.CustomersService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/musteri")
-@Api(value = "Project APIs")
 public class CustomersController {
 
     @Autowired
@@ -26,7 +23,6 @@ public class CustomersController {
     }
 
     @RequestMapping(value = "/listeleme",method = RequestMethod.GET)
-    @ApiOperation(value = "Listeleme işlemi", response = CustomersDto.class)
     public ResponseEntity<List<CustomersDto>> listeleme(Pageable pageable){
         try {
             return new ResponseEntity(customersService.listeleme(pageable), HttpStatus.OK);
@@ -36,7 +32,6 @@ public class CustomersController {
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET )
-    @ApiOperation(value = "Tek kayit bulma", response = CustomersDto.class)
     public ResponseEntity<CustomersDto> tekKayit(@PathVariable("id") Long id){
         CustomersDto customersDto =  customersService.kayitBul(id);
         try {
@@ -47,7 +42,6 @@ public class CustomersController {
     }
 
     @RequestMapping(value = "/ekle",method = RequestMethod.POST)
-    @ApiOperation(value = "Ekleme işlemi", response = CustomersDto.class)
     public ResponseEntity<CustomersDto> ekleme(@Valid @RequestBody CustomersDto customersDto){
         try{
             return new ResponseEntity(customersService.kayitEkleme(customersDto),HttpStatus.OK);
@@ -57,7 +51,6 @@ public class CustomersController {
     }
 
     @RequestMapping(value = "/guncelleme/{id}",method = RequestMethod.PUT)
-    @ApiOperation(value = "Güncelleme işlemi", response = CustomersDto.class)
     public ResponseEntity<CustomersDto> guncelleme(@PathVariable("id") Long id, @Valid @RequestBody CustomersDto customersDto){
         try {
             return new ResponseEntity(customersService.guncelleme(id,customersDto),HttpStatus.OK);
@@ -67,7 +60,6 @@ public class CustomersController {
     }
 
     @RequestMapping(value = "/silme/{id}", method = RequestMethod.DELETE)
-    @ApiOperation(value = "Silme işlemi", response = CustomersDto.class)
     public ResponseEntity<Boolean> silme(@PathVariable("id") Long id){
         try{
             return new ResponseEntity(customersService.silme(id),HttpStatus.OK);

@@ -22,7 +22,7 @@ public class Ticket extends BaseEntity{
     private Customers customers;
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name="cleander_id")
+    @JoinColumn(name="calendar_id")
     private Calendar calendar;
 
     @Column(name = "seat_number")

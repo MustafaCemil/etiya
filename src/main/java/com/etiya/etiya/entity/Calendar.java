@@ -40,7 +40,7 @@ public class Calendar extends BaseEntity{
     @JoinColumn(name="departure_airport_id")
     private Airport departure;
 
-    @OneToMany(mappedBy = "cleander",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "calendar",fetch = FetchType.LAZY)
     private Set<Ticket> ticket;
 
     @Column(name = "departure_time")

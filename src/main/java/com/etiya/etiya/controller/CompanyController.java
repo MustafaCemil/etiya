@@ -2,8 +2,6 @@ package com.etiya.etiya.controller;
 
 import com.etiya.etiya.dto.CompanyDto;
 import com.etiya.etiya.service.CompanyService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/sirket")
-@Api(value = "Project APIs")
 public class CompanyController {
 
     @Autowired
@@ -26,7 +23,6 @@ public class CompanyController {
     }
 
     @RequestMapping(value = "/listeleme",method = RequestMethod.GET)
-    @ApiOperation(value = "Listeleme işlemi", response = CompanyDto.class)
     public ResponseEntity<List<CompanyDto>> listeleme(Pageable pageable){
         try {
             return new ResponseEntity(companyService.listeleme(pageable), HttpStatus.OK);
@@ -36,7 +32,6 @@ public class CompanyController {
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET )
-    @ApiOperation(value = "Tek kayit bulma", response = CompanyDto.class)
     public ResponseEntity<CompanyDto> tekKayit(@PathVariable("id") Long id){
         CompanyDto companyDto =  companyService.kayitBul(id);
         try {
@@ -47,7 +42,6 @@ public class CompanyController {
     }
 
     @RequestMapping(value = "/ekle",method = RequestMethod.POST)
-    @ApiOperation(value = "Ekleme işlemi", response = CompanyDto.class)
     public ResponseEntity<CompanyDto> ekleme(@Valid @RequestBody CompanyDto companyDto){
         try{
             return new ResponseEntity(companyService.kayitEkleme(companyDto),HttpStatus.OK);
@@ -57,7 +51,6 @@ public class CompanyController {
     }
 
     @RequestMapping(value = "/guncelleme/{id}",method = RequestMethod.PUT)
-    @ApiOperation(value = "Güncelleme işlemi", response = CompanyDto.class)
     public ResponseEntity<CompanyDto> guncelleme(@PathVariable("id") Long id, @Valid @RequestBody CompanyDto companyDto){
         try {
             return new ResponseEntity(companyService.guncelleme(id,companyDto),HttpStatus.OK);
@@ -67,7 +60,6 @@ public class CompanyController {
     }
 
     @RequestMapping(value = "/silme/{id}", method = RequestMethod.DELETE)
-    @ApiOperation(value = "Silme işlemi", response = CompanyDto.class)
     public ResponseEntity<Boolean> silme(@PathVariable("id") Long id){
         try{
             return new ResponseEntity(companyService.silme(id),HttpStatus.OK);
