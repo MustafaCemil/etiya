@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,20 +21,20 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "first_name")
+    @Column(name = "f_name")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "l_name")
     private String lastName;
 
-    @Column(name = "birthday")
+    @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     private Date birthday;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "pass")
     private String password;
 
     @Column(name = "enabled")
